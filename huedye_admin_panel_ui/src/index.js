@@ -1,0 +1,32 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import {Provider} from 'react-redux';
+import reducer from './store';
+import {createStore, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
+import {composeWithDevTools} from 'redux-devtools-extension';
+
+const logger = (store) => (next) => (action) => {
+  console.log('dispatching', action)
+  let result = next(action)
+  console.log('next state', store.getState())
+  return result
+};
+const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk, logger)));
+ReactDOM.render(
+  <Provider store={store}>
+    {/* <React.StrictMode> */}
+      <App />
+    {/* </React.StrictMode> */}
+  </Provider>
+  ,
+  document.getElementById('root')
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
