@@ -54,7 +54,7 @@ const AddVisitForm = props => {
                 </div>
             </div>
             <div>
-                <label>услуга</label>
+                <label>Услуга</label>
                 <div>
                     <Field
                         name="title"
@@ -64,12 +64,13 @@ const AddVisitForm = props => {
                 </div>
             </div>
             <div>
-                <label>стоимость</label>
+                <label>Стоимость</label>
                 <div>
                     <Field
                         name="cost"
                         component="input"
-                        type="text"
+                        type="number"
+                        min="0"
                     />
                 </div>
             </div>

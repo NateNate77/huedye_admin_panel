@@ -11,6 +11,7 @@ import {
 import { Fragment } from 'react';
 import Client from './clientDetails/Client';
 import history from './history';
+import Visit from './visitDetails/Visit';
 
 function App() {
   return (
@@ -33,6 +34,9 @@ function App() {
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
+        <Route path="/visit/:visitId">
+            <Visit/>
+          </Route>
         <Route path="/client/:clientId">
             <Client/>
           </Route>

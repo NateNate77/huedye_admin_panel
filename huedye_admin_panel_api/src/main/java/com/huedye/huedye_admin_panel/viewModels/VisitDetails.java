@@ -1,10 +1,9 @@
 package com.huedye.huedye_admin_panel.viewModels;
 
-import com.huedye.huedye_admin_panel.model.Clients;
-
 import java.util.Date;
+import java.util.List;
 
-public class VisitRow {
+public class VisitDetails {
 
     private int id;
 
@@ -26,19 +25,22 @@ public class VisitRow {
 
     private String albumAfter;
 
+    private List<ProcedureRow> procedureRows;
 
 
-    public VisitRow() {
+
+    public VisitDetails() {
 
     }
 
-    public VisitRow(int id, Date visitDate, Boolean completed, String finalTitle, String creationTitle, Double finalCost) {
+    public VisitDetails(int id, Date visitDate, Boolean completed, String finalTitle, String creationTitle, Double finalCost, List<ProcedureRow> procedureRows) {
         this.id = id;
         this.visitDate = visitDate;
         this.completed = completed;
         this.finalTitle = finalTitle;
         this.creationTitle = creationTitle;
         this.finalCost = finalCost;
+        this.procedureRows = procedureRows;
     }
 
     public int getId() {
@@ -120,5 +122,14 @@ public class VisitRow {
 
     public void setFinalTitle(String finalTitle) {
         this.finalTitle = finalTitle;
+    }
+
+
+    public List<ProcedureRow> getProcedureRows() {
+        return procedureRows;
+    }
+
+    public void setProcedureRows(List<ProcedureRow> procedureRows) {
+        this.procedureRows = procedureRows;
     }
 }

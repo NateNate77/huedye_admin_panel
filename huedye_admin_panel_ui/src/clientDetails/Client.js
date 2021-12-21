@@ -11,6 +11,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import { withRouter, useParams } from 'react-router';
 import {getClient} from '../reducers/index'
 import AddVisit from './AddVisit';
+import { Link } from 'react-router-dom';
 
 
 const Client = (match) => {
@@ -32,15 +33,16 @@ const Client = (match) => {
          <h2>{currentClient.name}!</h2>
        </div>
 
-       <AddVisit maxId={currentClient.visits && currentClient.visits[currentClient.visits.length - 1].id} /> 
+       <AddVisit/> 
       
       <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
+          <TableCell align="left">Название</TableCell>
             <TableCell align="left">Дата</TableCell>
-            <TableCell align="left">Название</TableCell>
             <TableCell align="left">Стоимость</TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -49,10 +51,13 @@ const Client = (match) => {
               key={visit.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-             
+              <TableCell component="th" scope="row">
+                <Link to={`/visit/${visit.id}`}>{visit.finalTitle ? visit.finalTitle : visit.creationTitle}</Link>
+              </TableCell>
               <TableCell align="left">{new Date(visit.visitDate).toLocaleDateString('ru')}</TableCell>
-              <TableCell align="left">{visit.finalTitle}</TableCell>
               <TableCell align="left">{visit.finalCost}</TableCell>
+              <TableCell>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

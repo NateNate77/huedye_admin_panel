@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -36,6 +37,9 @@ public class Visits {
     private String albumBefore;
 
     private String albumAfter;
+
+    @OneToMany(mappedBy = "visit", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Procedures> proceduresList;
 
 
 
@@ -130,6 +134,15 @@ public class Visits {
 
     public void setVisitDate(Date visitDate) {
         this.visitDate = visitDate;
+    }
+
+
+    public List<Procedures> getProceduresList() {
+        return proceduresList;
+    }
+
+    public void setProceduresList(List<Procedures> proceduresList) {
+        this.proceduresList = proceduresList;
     }
 
 }

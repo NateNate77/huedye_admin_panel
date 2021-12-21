@@ -4,7 +4,8 @@ import history from "../history";
 const initialState = {
     clients: [],
     currentUser: 'zhopa',
-    currentClient: null
+    currentClient: null,
+    currentVisit: null
 }
 
 
@@ -24,8 +25,8 @@ export const getClient = (id) => (dispatch) => {
 
 }
 
-export const getClients = () => (dispatch) => {
-    return fetch('/api/clients/getAll', {
+export const getClients = (filter) => (dispatch) => {
+    return fetch(`/api/clients/getAll?filter=${filter}`, {  //add filters: all, completed, upcoming, didn`t show up
         method: 'get'
     }).then(function (response) {
         if(response.status === 200){
@@ -73,19 +74,22 @@ export const addVisit = (values) => (dispatch, getState) => {
     })
 }
 
-// export const addVisit = (values) => {
-//     let visit = {
-//         id: values.id,
-//         date: values.date,
-//         title: values.title,
-//         cost: values.cost
-//     }
+export const getVisit = (id) => (dispatch) => {
+    return fetch(`/api/visits/getVisit/${id}`, {
+        method: 'get'
+    }).then(function (response) {
+        if(response.status === 200){
+            return response.json();
+        }
+    }).then(function (response) {
+        return dispatch({
+            type: 'GET_VISIT_SUCCESS',
+            data: response
+        })
+    })
 
-//     return {
-//         type: 'ADD_VISIT',
-//         data: visit
-//     }
-// }
+}
+
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -99,6 +103,11 @@ const reducer = (state = initialState, action) => {
                     ...state,
                     clients: action.data
                 };
+            case 'GET_VISIT_SUCCESS':
+                return{
+                ...state,
+                currentVisit: action.data
+                };    
         default:
             return state;    
     }

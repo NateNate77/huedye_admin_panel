@@ -64,7 +64,7 @@ public class ClientController {
 
         for(int i = 0; i < visits.size(); i++){
             Visits visit = visits.get(i);
-            VisitRow visitRow = new VisitRow(visit.getId(), visit.getVisitDate(), visit.getCompleted(), visit.getFinalTitle(), visit.getFinalCost());
+            VisitRow visitRow = new VisitRow(visit.getId(), visit.getVisitDate(), visit.getCompleted(), visit.getFinalTitle(), visit.getCreationTitle(), visit.getFinalCost());
             visitRows.add(visitRow);
         }
         var clientDetails = new ClientDetails(clientById.getId(), clientById.getName(), visitRows);

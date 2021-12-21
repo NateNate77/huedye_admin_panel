@@ -33,4 +33,11 @@ public class VisitDAOImpl implements VisitDAO{
 
         return newVisit.getId();
     }
+
+    @Override
+    public Visits getVisitById(int id) {
+        Visits visitById = HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Visits.class, id);
+
+        return visitById;
+    }
 }
