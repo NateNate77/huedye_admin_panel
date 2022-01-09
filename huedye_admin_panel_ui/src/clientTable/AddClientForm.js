@@ -1,5 +1,6 @@
-import React from 'react'
-import { Field, reduxForm } from 'redux-form'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { change, Field, reduxForm } from 'redux-form'
 
 const required = value => value ? undefined : 'Required'
 const renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
@@ -13,8 +14,14 @@ const renderField = ({ input, label, type, meta: { touched, error, warning } }) 
     </div>
   )
 
-const AddClientForm = props => {
-  const { handleSubmit, pristine, reset, submitting } = props
+const AddClientForm = ({ handleSubmit, pristine, reset, submitting, client }) => {
+  const dispatch = useDispatch()
+    useEffect(() => {
+        if(client){
+            dispatch(change('addClient', "name", client.name))
+            dispatch(change('addClient', "phone", client.phone))
+        }
+    }, [client])
   
   return (
     <form onSubmit={handleSubmit}>

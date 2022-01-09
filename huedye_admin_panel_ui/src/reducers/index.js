@@ -58,6 +58,40 @@ export const addClient = (values) => (dispatch) => {
 
 }
 
+export const editClient = (values, id) => (dispatch) => {
+
+    return fetch(`/api/clients/editClient/${id}`, {
+        method: 'post',
+        body: JSON.stringify(values),
+        headers: {'content-type': 'application/json'}
+
+    }).then(function (response) {
+        if(response.status === 200){
+            dispatch(getClients());
+            //TODO: add nice banner with success text
+            // alert('успееееех');  
+        }
+    })
+
+}
+
+export const deleteClient = (id) => (dispatch) => {
+
+    return fetch(`/api/clients/deleteClient/${id}`, {
+        method: 'delete',
+        headers: {'content-type': 'application/json'}
+
+    }).then(function (response) {
+        if(response.status === 200){
+            dispatch(getClients());
+            //TODO: add nice banner with success text 
+        }
+    })
+
+}
+
+
+
 export const addVisit = (values) => (dispatch, getState) => {
     let currentState = getState()
     let currentClientId = currentState.mainReducer.currentClient.id
@@ -86,6 +120,42 @@ export const getVisit = (id) => (dispatch) => {
             type: 'GET_VISIT_SUCCESS',
             data: response
         })
+    })
+
+}
+
+export const editVisit = (values, id) => (dispatch, getState) => {
+    let currentState = getState()
+    let currentClientId = currentState.mainReducer.currentClient.id
+
+    return fetch(`/api/visits/editVisit/${id}`, {
+        method: 'post',
+        body: JSON.stringify(values),
+        headers: {'content-type': 'application/json'}
+
+    }).then(function (response) {
+        if(response.status === 200){
+            return dispatch(getClient(currentClientId))
+            //TODO: add nice banner with success text
+            // alert('успееееех');  
+        }
+    })
+
+}
+
+export const deleteVisit = (id) => (dispatch, getState) => {
+    let currentState = getState()
+    let currentClientId = currentState.mainReducer.currentClient.id
+
+    return fetch(`/api/visits/deleteVisit/${id}`, {
+        method: 'delete',
+        headers: {'content-type': 'application/json'}
+
+    }).then(function (response) {
+        if(response.status === 200){
+            return dispatch(getClient(currentClientId))
+            //TODO: add nice banner with success text 
+        }
     })
 
 }

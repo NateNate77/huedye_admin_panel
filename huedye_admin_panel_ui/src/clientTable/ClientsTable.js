@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import { Box, Button, Modal, Typography } from '@mui/material';
 import AddClient from './AddClient';
 import { getClients } from '../reducers';
+import ClientMenu from './ClientMenu';
 
 
 const ClientsTable = () => {
@@ -43,6 +44,7 @@ const ClientsTable = () => {
             <TableCell align="right">Телефон</TableCell>
             <TableCell align="right">Последнее посещение</TableCell>
             <TableCell align="right">Количество посещений</TableCell>
+            <TableCell align="right"> </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -57,6 +59,7 @@ const ClientsTable = () => {
               <TableCell align="right">{client.phone}</TableCell>
               <TableCell align="right">{client.lastVisit && new Date(client.lastVisit).toLocaleDateString('ru')}</TableCell>
               <TableCell align="right">{client.visitsCount}</TableCell>
+              <TableCell align="right"><ClientMenu client={client}/></TableCell>
             </TableRow>
           ))}
         </TableBody>

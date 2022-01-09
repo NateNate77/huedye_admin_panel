@@ -12,6 +12,7 @@ import { withRouter, useParams } from 'react-router';
 import {getClient} from '../reducers/index'
 import AddVisit from './AddVisit';
 import { Link } from 'react-router-dom';
+import VisitMenu from './VisitMenu';
 
 
 const Client = (match) => {
@@ -56,8 +57,7 @@ const Client = (match) => {
               </TableCell>
               <TableCell align="left">{new Date(visit.visitDate).toLocaleDateString('ru')}</TableCell>
               <TableCell align="left">{visit.finalCost}</TableCell>
-              <TableCell>
-              </TableCell>
+              <TableCell align="right"><VisitMenu visit={visit}/></TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -19,6 +19,8 @@ public class Clients {
 
     private String phone;
 
+    private boolean isDeleted;
+
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Visits> visitsList;
 
@@ -57,5 +59,13 @@ public class Clients {
 
     public void setVisitsList(List<Visits> visitsList) {
         this.visitsList = visitsList;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 }

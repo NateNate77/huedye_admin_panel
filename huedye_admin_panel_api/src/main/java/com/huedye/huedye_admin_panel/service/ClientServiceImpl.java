@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.huedye.huedye_admin_panel.repository.ClientDAOImpl;
 import uow.AddClient;
+import uow.EditClient;
 
 import java.util.List;
 
@@ -31,5 +32,15 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public int createClient(AddClient client) {
         return clientDAO.createClient(client);
+    }
+
+    @Override
+    public void editClient(EditClient editClient, int id) {
+        clientDAO.editClient(editClient, id);
+    }
+
+    @Override
+    public void deleteClient(int id) {
+        clientDAO.deleteClient(id);
     }
 }

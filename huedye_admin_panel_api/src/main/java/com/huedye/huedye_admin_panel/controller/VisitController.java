@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uow.AddClient;
 import uow.AddVisit;
+import uow.EditClient;
+import uow.EditVisit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +56,18 @@ public class VisitController {
 
         return new ResponseEntity<>(visitDetails, HttpStatus.OK);
 
+    }
+
+    @PostMapping(value = "/editVisit/{id}")
+    public ResponseEntity<?> editVisit(@RequestBody EditVisit editVisit, @PathVariable(name = "id") int id) {
+        visitService.editVisit(editVisit, id);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/deleteVisit/{id}")
+    public ResponseEntity<?> deleteVisit(@PathVariable(name = "id") int id) {
+        visitService.deleteVisit(id);
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
 }

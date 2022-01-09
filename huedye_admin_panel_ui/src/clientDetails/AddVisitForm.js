@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { change, Field, reduxForm } from 'redux-form'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 import ru from 'date-fns/locale/ru';
+import { useDispatch } from 'react-redux';
 
 registerLocale('ru', ru)
 
@@ -38,7 +39,16 @@ const renderDatePicker = ({ input, placeholder, defaultValue, meta: { dispatch, 
 );
 
 const AddVisitForm = props => {
-    const { handleSubmit, pristine, reset, submitting } = props
+    const { handleSubmit, pristine, reset, submitting, visit } = props
+
+    const dispatch = useDispatch()
+    useEffect(() => {
+        if(visit){
+            dispatch(change('addVisit', "title", visit.finalTitle ? visit.finalTitle : visit.creationTitle))
+            dispatch(change('addVisit', "date", new Date(visit.visitDate)))
+            dispatch(change('addVisit', "cost", visit.finalCost))
+        }
+    }, [visit])
     return (
         <form onSubmit={handleSubmit}>
             <div>

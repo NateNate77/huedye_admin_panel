@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.huedye.huedye_admin_panel.service.ClientServiceImpl;
 import uow.AddClient;
+import uow.EditClient;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -64,10 +65,13 @@ public class ClientController {
 
         for(int i = 0; i < visits.size(); i++){
             Visits visit = visits.get(i);
-            VisitRow visitRow = new VisitRow(visit.getId(), visit.getVisitDate(), visit.getCompleted(), visit.getFinalTitle(), visit.getCreationTitle(), visit.getFinalCost());
-            visitRows.add(visitRow);
+            if(!visit.isDeleted()){
+                VisitRow visitRow = new VisitRow(visit.getId(), visit.getVisitDate(), visit.getCompleted(), visit.getFinalTitle(), visit.getCreationTitle(), visit.getFinalCost());
+                visitRows.add(visitRow);
+            }
         }
-        var clientDetails = new ClientDetails(clientById.getId(), clientById.getName(), visitRows);
+        List<VisitRow> sortedVisits = visitRows.stream().sorted(Comparator.comparing(x -> x.getId())).collect(Collectors.toList());
+        var clientDetails = new ClientDetails(clientById.getId(), clientById.getName(), sortedVisits);
 
         return new ResponseEntity<>(clientDetails, HttpStatus.OK);
 
@@ -76,6 +80,18 @@ public class ClientController {
     @PostMapping(value = "/addClient")
     public ResponseEntity<?> create(@RequestBody AddClient client) {
         int id = clientService.createClient(client);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/editClient/{id}")
+    public ResponseEntity<?> editClient(@RequestBody EditClient editClient, @PathVariable(name = "id") int id) {
+        clientService.editClient(editClient, id);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/deleteClient/{id}")
+    public ResponseEntity<?> deleteClient(@PathVariable(name = "id") int id) {
+        clientService.deleteClient(id);
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 

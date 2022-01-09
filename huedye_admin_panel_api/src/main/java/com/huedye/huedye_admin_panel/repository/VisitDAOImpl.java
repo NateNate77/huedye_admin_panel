@@ -6,6 +6,7 @@ import com.huedye.huedye_admin_panel.utils.HibernateSessionFactoryUtil;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import uow.AddVisit;
+import uow.EditVisit;
 
 import java.util.Date;
 
@@ -39,5 +40,29 @@ public class VisitDAOImpl implements VisitDAO{
         Visits visitById = HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Visits.class, id);
 
         return visitById;
+    }
+
+    @Override
+    public void editVist(EditVisit editVisit, int id) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Visits visitById = session.get(Visits.class, id);
+        session.beginTransaction();
+        visitById.setVisitDate(editVisit.getDate());
+        visitById.setCreationTitle(editVisit.getTitle());
+        visitById.setFinalTitle(editVisit.getTitle());
+        session.update(visitById);
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    @Override
+    public void deleteVisit(int id) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Visits visitById = session.get(Visits.class, id);
+        session.beginTransaction();
+        visitById.setDeleted(true);
+        session.update(visitById);
+        session.getTransaction().commit();
+        session.close();
     }
 }

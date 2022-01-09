@@ -38,6 +38,8 @@ public class Visits {
 
     private String albumAfter;
 
+    private boolean isDeleted;
+
     @OneToMany(mappedBy = "visit", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Procedures> proceduresList;
 
@@ -145,4 +147,11 @@ public class Visits {
         this.proceduresList = proceduresList;
     }
 
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
 }
