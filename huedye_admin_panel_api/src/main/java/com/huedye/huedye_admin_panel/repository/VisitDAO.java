@@ -2,9 +2,7 @@ package com.huedye.huedye_admin_panel.repository;
 
 import com.huedye.huedye_admin_panel.model.Clients;
 import com.huedye.huedye_admin_panel.model.Visits;
-import uow.AddClient;
-import uow.AddVisit;
-import uow.EditVisit;
+import uow.*;
 
 public interface VisitDAO {
 
@@ -15,4 +13,10 @@ public interface VisitDAO {
     void editVist(EditVisit editVisit, int id);
 
     void deleteVisit(int id);
+
+    int addProcedure(AddProcedure addProcedure);
+
+    void deleteProcedure(int id);
+
+    void editProcedure(EditProcedure editProcedure, int id);
 }

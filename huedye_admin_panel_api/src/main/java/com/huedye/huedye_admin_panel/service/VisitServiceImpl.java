@@ -5,7 +5,9 @@ import com.huedye.huedye_admin_panel.repository.ClientDAOImpl;
 import com.huedye.huedye_admin_panel.repository.VisitDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import uow.AddProcedure;
 import uow.AddVisit;
+import uow.EditProcedure;
 import uow.EditVisit;
 
 @Service
@@ -37,6 +39,21 @@ public class VisitServiceImpl implements VisitService {
     @Override
     public void deleteVisit(int id) {
         visitDAO.deleteVisit(id);
+    }
+
+    @Override
+    public int addProcedure(AddProcedure addProcedure) {
+       return visitDAO.addProcedure(addProcedure);
+    }
+
+    @Override
+    public void deleteProcedure(int id) {
+        visitDAO.deleteProcedure(id);
+    }
+
+    @Override
+    public void editProcedure(EditProcedure editProcedure, int id) {
+        visitDAO.editProcedure(editProcedure, id);
     }
 
 

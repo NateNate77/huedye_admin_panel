@@ -1,8 +1,6 @@
 package com.huedye.huedye_admin_panel.utils;
 
-import com.huedye.huedye_admin_panel.model.Clients;
-import com.huedye.huedye_admin_panel.model.Procedures;
-import com.huedye.huedye_admin_panel.model.Visits;
+import com.huedye.huedye_admin_panel.model.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -19,6 +17,8 @@ public class HibernateSessionFactoryUtil {
                 configuration.addAnnotatedClass(Clients.class);
                 configuration.addAnnotatedClass(Visits.class);
                 configuration.addAnnotatedClass(Procedures.class);
+                configuration.addAnnotatedClass(Materials.class);
+                configuration.addAnnotatedClass(Brands.class);
 
                 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
                 sessionFactory = configuration.buildSessionFactory(builder.build());

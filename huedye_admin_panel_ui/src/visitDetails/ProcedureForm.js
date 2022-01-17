@@ -2,19 +2,33 @@ import React from 'react'
 import { change, Field, reduxForm } from 'redux-form'
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch } from 'react-redux';
+import { deleteProcedure, editProcedure } from '../reducers';
+import { Button } from '@mui/material';
 
 
 
-const ProcedureForm = ({ handleSubmit, pristine, reset, submitting, canEdit, procedure, form }) => {
-    const dispatch = useDispatch()
-    React.useEffect(() => {
+const ProcedureForm = ({ handleSubmit, pristine, reset, submitting, canEdit, procedure, form, cancel, visitId }) => {
+
+    const resetValues = () => {
         if(procedure){
-            dispatch(change(form, "conditionBefore", procedure.conditionBefore))
+        dispatch(change(form, "conditionBefore", procedure.conditionBefore))
             dispatch(change(form, "description", procedure.description))
             dispatch(change(form, "conditionAfter", procedure.conditionAfter))
             dispatch(change(form, "comment", procedure.comment))
         }
+    }
+    const dispatch = useDispatch()
+    React.useEffect(() => {
+            resetValues()
     }, [procedure])
+
+    const handleCancel = () => {
+        resetValues()
+        if(cancel){
+            cancel()
+        }
+    }
+  
 
     return (
         <form onSubmit={handleSubmit}>
@@ -62,13 +76,14 @@ const ProcedureForm = ({ handleSubmit, pristine, reset, submitting, canEdit, pro
                     />
                 </div>
             </div>
-            {canEdit && <div>
-                <button type="submit" disabled={pristine || submitting}>
+            {canEdit && <div style={{marginTop: '10px'}}>
+                <Button style={{marginRight: '5px'}} variant="outlined" type="submit" disabled={pristine || submitting}>
                     Submit
-        </button>
-                <button type="button" disabled={pristine || submitting} onClick={reset}>
-                    Clear Values
-        </button>
+                    
+                </Button>
+                <Button variant="outlined" type="button" onClick={handleCancel}>
+                     Галя, отмена!!
+                </Button>
             </div>}
         </form>
     )

@@ -12,6 +12,7 @@ import { Fragment } from 'react';
 import Client from './clientDetails/Client';
 import history from './history';
 import Visit from './visitDetails/Visit';
+import MaterialsTable from './MaterialsDetails/MaterialsTable';
 
 function App() {
   return (
@@ -44,7 +45,7 @@ function App() {
             <ClientsTable/>
           </Route>
           <Route path="/materials">
-            <Fragment />
+            <MaterialsTable />
           </Route>
           <Route path="/">
             <Fragment />

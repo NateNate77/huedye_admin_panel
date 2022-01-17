@@ -2,7 +2,7 @@ import { MoreVert } from "@mui/icons-material"
 import { Box, IconButton, Menu, MenuItem, Modal } from "@mui/material"
 import { Fragment, useState } from "react"
 import { useDispatch } from "react-redux"
-import { deleteClient, deleteVisit, editClient, editVisit } from "../reducers"
+import { deleteVisit, editVisit } from "../reducers"
 import AddVisitForm from "./AddVisitForm"
 
 const ITEM_HEIGHT = 48

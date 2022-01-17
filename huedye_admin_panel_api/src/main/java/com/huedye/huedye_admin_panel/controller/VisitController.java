@@ -14,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uow.AddClient;
-import uow.AddVisit;
-import uow.EditClient;
-import uow.EditVisit;
+import uow.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +45,10 @@ public class VisitController {
 
         for(int i = 0; i < procedures.size(); i++){
             Procedures procedure = procedures.get(i);
-            ProcedureRow procedureRow = new ProcedureRow(procedure.getId(), procedure.getConditionBefore(), procedure.getDescription(), procedure.getConditionAfter(), procedure.getComment());
-            procedureRows.add(procedureRow);
+            if(!procedure.isDelete()){
+                ProcedureRow procedureRow = new ProcedureRow(procedure.getId(), procedure.getConditionBefore(), procedure.getDescription(), procedure.getConditionAfter(), procedure.getComment());
+                procedureRows.add(procedureRow);
+            }
         }
 
         VisitDetails visitDetails = new VisitDetails(visitById.getId(), visitById.getVisitDate(), visitById.getCompleted(), visitById.getFinalTitle(), visitById.getCreationTitle(), visitById.getFinalCost(), procedureRows);
@@ -67,6 +66,24 @@ public class VisitController {
     @DeleteMapping(value = "/deleteVisit/{id}")
     public ResponseEntity<?> deleteVisit(@PathVariable(name = "id") int id) {
         visitService.deleteVisit(id);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/addProcedure")
+    public ResponseEntity<?> addProcedure(@RequestBody AddProcedure addProcedure) {
+        int id = visitService.addProcedure(addProcedure);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/deleteProcedure/{id}")
+    public ResponseEntity<?> deleteProcedure(@PathVariable(name = "id") int id) {
+        visitService.deleteProcedure(id);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/editProcedure/{id}")
+    public ResponseEntity<?> editVisit(@RequestBody EditProcedure editProcedure, @PathVariable(name = "id") int id) {
+        visitService.editProcedure(editProcedure, id);
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 

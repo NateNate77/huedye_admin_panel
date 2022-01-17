@@ -1,22 +1,6 @@
-package com.huedye.huedye_admin_panel.model;
+package uow;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
-
-@Entity
-@Table(name = "Procedures")
-@JsonIgnoreProperties({ "visit" })
-public class Procedures {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "visitId")
-    private Visits visit;
+public class EditProcedure {
 
     private String conditionBefore;
 
@@ -27,26 +11,6 @@ public class Procedures {
     private String comment;
 
     private boolean isDelete;
-
-    public Procedures() {
-
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Visits getVisit() {
-        return visit;
-    }
-
-    public void setVisit(Visits visit) {
-        this.visit = visit;
-    }
 
     public String getConditionBefore() {
         return conditionBefore;

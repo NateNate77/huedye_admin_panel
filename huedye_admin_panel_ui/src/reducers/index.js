@@ -5,7 +5,8 @@ const initialState = {
     clients: [],
     currentUser: 'zhopa',
     currentClient: null,
-    currentVisit: null
+    currentVisit: null,
+    materials: []
 }
 
 
@@ -160,6 +161,74 @@ export const deleteVisit = (id) => (dispatch, getState) => {
 
 }
 
+export const addProcedure = (values, visitId) => (dispatch) => {
+
+    let data = {...values, visitId: visitId}
+    return fetch('/api/visits/addProcedure', {
+        method: 'post',
+        body: JSON.stringify(data),
+        headers: {'content-type': 'application/json'}
+
+    }).then(function (response) {
+        if(response.status === 200){
+            return dispatch(getVisit(visitId))
+        }
+    })
+
+}
+
+export const deleteProcedure = (id, visitId) => (dispatch, getState) => {
+    // let currentState = getState()
+    // let currentClientId = currentState.mainReducer.currentClient.id
+
+    return fetch(`/api/visits/deleteProcedure/${id}`, {
+        method: 'delete',
+        headers: {'content-type': 'application/json'}
+
+    }).then(function (response) {
+        if(response.status === 200){
+            return dispatch(getVisit(visitId))
+            //TODO: add nice banner with success text 
+        }
+    })
+
+}
+
+export const editProcedure = (values, procedureId, visitId) => (dispatch, getState) => {
+    // let currentState = getState()
+    // let currentClientId = currentState.mainReducer.currentClient.id
+
+    return fetch(`/api/visits/editProcedure/${procedureId}`, {
+        method: 'post',
+        body: JSON.stringify(values),
+        headers: {'content-type': 'application/json'}
+
+    }).then(function (response) {
+        if(response.status === 200){
+            return dispatch(getVisit(visitId))
+            //TODO: add nice banner with success text
+            // alert('успееееех');  
+        }
+    })
+
+}
+
+export const getMaterials = (filter) => (dispatch) => {
+    return fetch(`/api/materials/getMaterials?filter=${filter}`, {  //add filters: all, completed, upcoming, didn`t show up
+        method: 'get'
+    }).then(function (response) {
+        if(response.status === 200){
+            return response.json();
+        }
+    }).then(function (response) {
+        return dispatch({
+            type: 'GET_MATERIALS_SUCCESS',
+            data: response
+        })
+    })
+
+}
+
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -178,6 +247,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 currentVisit: action.data
                 };    
+            case 'GET_MATERIALS_SUCCESS':
+                return{
+                    ...state,
+                    materials: action.data
+                };
         default:
             return state;    
     }
