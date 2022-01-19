@@ -95,5 +95,27 @@ public class ClientController {
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/searchClient")
+    public ResponseEntity<List<ClientRow>> searchClient(@RequestParam String search) {
+        List<Clients> clients = clientService.searchClient(search);
+        List<ClientRow> clientRows = new ArrayList<>();
+
+        for (int i = 0; i < clients.size(); i++) {
+            Clients clientsFromDB = clients.get(i);
+            List<Visits> completedVisits = clientsFromDB.getVisitsList() != null && !clientsFromDB.getVisitsList().isEmpty()
+                    ? clientsFromDB.getVisitsList().stream().filter(x -> x.getCompleted()).collect(Collectors.toList())
+                    : null;
+            Date lastVisitDate = completedVisits != null && !completedVisits.isEmpty()
+                    ? completedVisits.stream().max(Comparator.comparing(x -> x.getVisitDate())).get().getVisitDate()
+                    : null;
+            ClientRow client = new ClientRow(clientsFromDB.getId(), clientsFromDB.getName(), clientsFromDB.getPhone(), lastVisitDate, clientsFromDB.getVisitsList().stream().filter(x -> x.getCompleted()).collect(Collectors.toList()).size());
+            clientRows.add(client);
+            System.out.println(client);
+        }
+
+        return new ResponseEntity<>(clientRows, HttpStatus.OK);
+
+    }
+
 
 }

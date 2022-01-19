@@ -43,4 +43,9 @@ public class ClientServiceImpl implements ClientService {
     public void deleteClient(int id) {
         clientDAO.deleteClient(id);
     }
+
+    @Override
+    public List<Clients> searchClient(String search) {
+        return clientDAO.searchClient(search);
+    }
 }

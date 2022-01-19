@@ -18,4 +18,6 @@ public interface ClientService {
     void editClient(EditClient editClient, int id);
 
     void deleteClient(int id);
+
+    List<Clients> searchClient(String search);
 }

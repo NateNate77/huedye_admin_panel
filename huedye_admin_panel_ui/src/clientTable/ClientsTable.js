@@ -10,10 +10,12 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {useDispatch, useSelector} from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Box, Button, Modal, Typography } from '@mui/material';
+import { Box, Button, Grid, InputAdornment, Modal, TextField, Typography } from '@mui/material';
 import AddClient from './AddClient';
-import { getClients } from '../reducers';
+import { getClients, searchClient } from '../reducers';
 import ClientMenu from './ClientMenu';
+import { Search } from '@mui/icons-material';
+import _ from 'lodash';
 
 
 const ClientsTable = () => {
@@ -25,6 +27,13 @@ const ClientsTable = () => {
     let clients = useSelector(state => state.mainReducer.clients)
     let currentUser = useSelector(state => state.mainReducer.currentUser)
 
+    const handleSearchChange = _.debounce(e => 
+      {
+        dispatch(searchClient((e.target.value)));
+      }, 1000);
+      
+    
+
   return (
     
       <div>
@@ -33,8 +42,26 @@ const ClientsTable = () => {
          {/* <h2>Привет, Админ!</h2> */}
          <h2>Привет, {currentUser}!</h2>
        </div>
-       
-       <AddClient/>
+      <Grid container direction="row">
+        <Grid item style={{ flex: 0.2, alignSelf: 'start' }}>
+          <AddClient />
+        </Grid>
+
+        <Grid item style={{ flex: 0.8 }}>
+          <TextField
+            id="search"
+            label="Поиск"
+            onChange={handleSearchChange}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              )
+            }}
+          />
+        </Grid>
+      </Grid>
       
       <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">

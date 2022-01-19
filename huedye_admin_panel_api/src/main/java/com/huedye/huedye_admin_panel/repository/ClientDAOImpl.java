@@ -2,6 +2,7 @@ package com.huedye.huedye_admin_panel.repository;
 
 import com.huedye.huedye_admin_panel.model.Clients;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import com.huedye.huedye_admin_panel.utils.HibernateSessionFactoryUtil;
 import uow.AddClient;
@@ -63,5 +64,14 @@ public class ClientDAOImpl implements ClientDAO {
         clientById.setDeleted(true);
         session.getTransaction().commit();
         session.close();
+    }
+
+    @Override
+    public List<Clients> searchClient(String search) {
+        String queryString = "From Clients where lower(name) like :searchPhrase or lower(phone) like :searchPhrase order by id";
+        Query sqlQuery = HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery(queryString);
+        sqlQuery.setParameter("searchPhrase", "%" + search.toLowerCase() + "%");
+        List<Clients> clients = (List<Clients>)  sqlQuery.list();
+        return clients;
     }
 }

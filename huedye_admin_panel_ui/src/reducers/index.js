@@ -229,6 +229,22 @@ export const getMaterials = (filter) => (dispatch) => {
 
 }
 
+export const searchClient = (search) => (dispatch) => {
+    return fetch(`/api/clients/searchClient?search=${search}`, { 
+        method: 'get'
+    }).then(function (response) {
+        if(response.status === 200){
+            return response.json();
+        }
+    }).then(function (response) {
+        return dispatch({
+            type: 'GET_CLIENTS_SUCCESS',
+            data: response
+        })
+    })
+
+}
+
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
